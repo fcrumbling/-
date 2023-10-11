@@ -7,6 +7,11 @@ Snake snake;
 Food food;
 char pre_Dir = right;//当前蛇头方向
 char toDir = right;//预期蛇头方向
+int ranks[100];//记录历次分数，偷个懒，搞个100的数组。
+int rankindex = 0;
+int blocknumber = 5;//障碍物个数 单个障碍物的处理更简单一点，但是函数会不通用，所以直接从复数个开始。
+Block blocks[5],block;//记录障碍物
+
 
 int Menu() {
 	GotoXY(40, 12);
@@ -18,6 +23,8 @@ int Menu() {
 	GotoXY(43, 18);
 	printf("3.关于");
 	GotoXY(43, 20);
+	printf("4.排行榜");
+	GotoXY(43, 22);
 	printf("输入其他键以退出游戏");
 	Hide();
 	char number;
@@ -27,6 +34,7 @@ int Menu() {
 	case '1':result = 1; break;
 	case '2':result = 2; break;
 	case '3':result = 3; break;
+	case '4':result = 4; break;
 	default: result = 0; break;
 	}
 	system("cls");
@@ -53,7 +61,7 @@ void About()
 	GotoXY(30, 12);
 	printf("贪吃蛇——控制台游戏");
 	GotoXY(34, 14);
-	printf("作者：crumbling");
+	printf("作者：crumbling、yuuki");
 	GotoXY(34, 16);
 	printf("按任意键以返回上级菜单");
 	Hide();
@@ -112,7 +120,8 @@ void InitMap() {
 
 	//生成食物
 	printfood();
-
+	//生成障碍物
+	printblock();
 	//计分板
 	GotoXY(50, 5);
 	printf("得分：0");
@@ -191,12 +200,13 @@ int Snakemove() {
 		printf("当前得分:%d", snake.length - 3);
 	}
 	/*判断是否死亡，死亡则清除屏幕打印分数*/
-	if (!check()) {
+	if (!check()||!blockcheck()){
 		system("cls");
 		GotoXY(45, 14);
 		printf("Game Over");
 		GotoXY(45, 16);
 		printf("最终得分:%d", snake.length - 3);
+		ranks[rankindex++] = snake.length - 3;
 		GotoXY(45, 18);
 		printf("按任意键返回主菜单");
 		char ch = _getch();
@@ -233,4 +243,67 @@ void speedcontrol() {
 	case 33:snake.speed = 20; break;
 	default:break;
 	}
+}
+//先生成了食物，还要判断是否有食物
+void printblock() {
+	int i = blocknumber;
+	while(i--){
+		block.x = rand() % (map_width - 2) + 1;
+		block.y = rand() % (map_height - 2) + 1;
+		for (int j = 0; j < snake.length; j++) {
+			if (block.x == snake.snakeNODE[j].x && block.y == snake.snakeNODE[j].y)
+			{
+				i++;
+				break;
+			}
+		}
+		if (block.x == food.x && block.y == food.y) {
+			i++;
+			continue;
+		}
+		blocks[i].x = block.x;
+		blocks[i].y = block.y;
+		GotoXY(block.x, block.y);
+		printf("#");
+	}
+}
+
+int blockcheck() {
+	for (int j = 0; j < blocknumber; j++){
+		for (int i = 0; i < snake.length; i++) {
+			if (blocks[j].x == snake.snakeNODE[i].x && blocks[j].y == snake.snakeNODE[i].y)
+				return 0;
+		}
+	}
+	return 1;
+}
+
+void Rank() {
+	GotoXY(43, 12);
+	printf("排行榜：");
+	sort(0,rankindex-1);
+	for (int i = 0; i < rankindex; i++) {
+		GotoXY(43, 14 + 2 * i);
+		printf("%d.%d", i + 1, ranks[rankindex-i-1]);
+	}
+	GotoXY(43, 14 + 2 * rankindex);
+	printf("按任意键以返回上级菜单");
+	Hide();
+	char number = _getch();
+	system("cls");
+}
+
+void sort(int low,int high) {
+	int i = low;
+	int j = high;
+	int key = ranks[i];
+	while (i < j) {
+		while (i < j && ranks[j] >= key)j--;
+		ranks[i] = ranks[j];
+		while (i < j && ranks[i] <= key)i++;
+		ranks[j] = ranks[i];
+	}
+	ranks[i] = key;
+	if (i - 1 > low) sort(low, i - 1);
+	if (i + 1 < high) sort(i + 1, high);
 }

@@ -11,11 +11,11 @@
 #define right 'd'
 #define left 'a'
 
-typedef struct //定义食物和蛇节点位置
+typedef struct //定义食物和蛇节点位置  定义障碍物的位置
 {
 	int x;
 	int y;
-}Food,Snakenode;
+}Food,Snakenode,Block;
 
 typedef struct
 {
@@ -35,3 +35,8 @@ void speedcontrol();//速度控制
 int Snakemove();//蛇移动
 int check();//自撞与撞墙检测
 int Menu();//主菜单
+
+void printblock();//障碍物生成
+int blockcheck();//障碍物碰撞检测
+void Rank();//榜单功能  每次清空，只记录文件执行至结束期间的分数
+void sort(int,int);//排序 快排

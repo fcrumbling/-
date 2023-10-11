@@ -17,6 +17,9 @@ int main()
 		case 3:
 			About();
 			break;
+		case 4:
+			Rank();
+			break;
 		case 0:
 			end = 0;
 			break;
