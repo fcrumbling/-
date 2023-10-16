@@ -1,3 +1,3 @@
 ﻿  snake.cpp
-C:\Users\91202\Desktop\2023-c-project\贪吃蛇\贪吃蛇\snake.h(1,1): warning C4828: 文件包含在偏移 0x34e 处开始的字符，该字符在当前源字符集中无效(代码页 936)。
+C:\Users\91202\Desktop\2023-c-project\贪吃蛇\贪吃蛇\snake.h(1,1): warning C4828: 文件包含在偏移 0x370 处开始的字符，该字符在当前源字符集中无效(代码页 936)。
   贪吃蛇.vcxproj -> C:\Users\91202\Desktop\2023-c-project\贪吃蛇\x64\Debug\贪吃蛇.exe

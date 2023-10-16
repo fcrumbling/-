@@ -20,6 +20,9 @@ int main()
 		case 4:
 			Rank();
 			break;
+		case 5:
+			Backdoor();
+			break;
 		case 0:
 			end = 0;
 			break;

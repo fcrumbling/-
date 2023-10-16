@@ -11,7 +11,7 @@ int ranks[100];//记录历次分数，偷个懒，搞个100的数组。
 int rankindex = 0;
 int blocknumber = 5;//障碍物个数 单个障碍物的处理更简单一点，但是函数会不通用，所以直接从复数个开始。
 Block blocks[5],block;//记录障碍物
-
+int backdoor = 1;//作弊未启动
 
 int Menu() {
 	GotoXY(40, 12);
@@ -35,6 +35,7 @@ int Menu() {
 	case '2':result = 2; break;
 	case '3':result = 3; break;
 	case '4':result = 4; break;
+	case '5':result = 5; break;
 	default: result = 0; break;
 	}
 	system("cls");
@@ -173,6 +174,10 @@ int Snakemove() {
 			if (pre_Dir != left)
 				pre_Dir = toDir;
 			break;
+		case 'q':
+			char ch = _getch();
+			system("cls");
+			return 0;
 		}
 	}
 	switch (pre_Dir) {
@@ -200,7 +205,7 @@ int Snakemove() {
 		printf("当前得分:%d", snake.length - 3);
 	}
 	/*判断是否死亡，死亡则清除屏幕打印分数*/
-	if (!check()||!blockcheck()){
+	if (backdoor&&(!check() || !blockcheck())){
 		system("cls");
 		GotoXY(45, 14);
 		printf("Game Over");
@@ -306,4 +311,15 @@ void sort(int low,int high) {
 	ranks[i] = key;
 	if (i - 1 > low) sort(low, i - 1);
 	if (i + 1 < high) sort(i + 1, high);
+}
+
+void Backdoor() {
+	backdoor = 0;
+	GotoXY(43, 12);
+	printf("作弊已启动,连击q以退出");
+	GotoXY(45, 14);
+	printf("按任意键以返回上级菜单");
+	Hide();
+	char number = _getch();
+	system("cls");
 }
