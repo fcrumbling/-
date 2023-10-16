@@ -1,8 +1,12 @@
+//snake.h
+
 #include<stdio.h>
 #include<Windows.h>
 #include<conio.h>
 #include<time.h>
 
+
+#define FOOD_COUNT 3  // 定义食物数量
 
 #define map_height 20
 #define map_width 40
@@ -11,11 +15,22 @@
 #define right 'd'
 #define left 'a'
 
-typedef struct //定义食物和蛇节点位置  定义障碍物的位置
+typedef struct {  //定义食物的位置和类型
+	int x;
+	int y;
+	char type; // 用于标识食物类型，例如 '$', '*', '%'
+} Food;
+
+
+typedef struct //定义蛇节点位置  定义障碍物的位置
 {
 	int x;
 	int y;
-}Food,Snakenode,Block;
+} Snakenode, Block;
+
+
+
+
 
 typedef struct
 {
@@ -39,6 +54,6 @@ int Menu();//主菜单
 void printblock();//障碍物生成
 int blockcheck();//障碍物碰撞检测
 void Rank();//榜单功能  每次清空，只记录文件执行至结束期间的分数
-void sort(int,int);//排序 快排
+void sort(int, int);//排序 快排
 void Backdoor();//开个后门作弊用
 void clear();//清除障碍物

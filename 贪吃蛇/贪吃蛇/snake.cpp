@@ -1,17 +1,22 @@
+//snake.cpp
+
 #include "snake.h"
 
 //@表示蛇头，o表示蛇身,$表示食物
 
 /*定义全局变量*/
 Snake snake;
-Food food;
+Food foods[FOOD_COUNT];
 char pre_Dir = right;//当前蛇头方向
 char toDir = right;//预期蛇头方向
 int ranks[100];//记录历次分数，偷个懒，搞个100的数组。
 int rankindex = 0;
 int blocknumber = 5;//障碍物个数 单个障碍物的处理更简单一点，但是函数会不通用，所以直接从复数个开始。
-Block blocks[5],block;//记录障碍物
+Block blocks[5], block;//记录障碍物
 int backdoor = 1;//作弊未启动
+
+
+char foodTypes[] = { '$', '*', '%' };// 食物种类数组
 
 int Menu() {
 	GotoXY(40, 12);
@@ -50,10 +55,10 @@ void GotoXY(int x, int y) {
 	SetConsoleCursorPosition(hout, cor);//设置控制台光标位置
 }
 
-void Hide(){
+void Hide() {
 	HANDLE hout;
 	hout = GetStdHandle(STD_OUTPUT_HANDLE);
-	CONSOLE_CURSOR_INFO cor_info= { 1,0 };
+	CONSOLE_CURSOR_INFO cor_info = { 1,0 };
 	SetConsoleCursorInfo(hout, &cor_info);
 }
 
@@ -89,14 +94,14 @@ void Help() {
 void InitMap() {
 	Hide();
 	/*初始化蛇状态*/
-	snake.snakeNODE[0].x = map_width/2;
+	snake.snakeNODE[0].x = map_width / 2;
 	snake.snakeNODE[0].y = map_height / 2;
 	GotoXY(snake.snakeNODE[0].x, snake.snakeNODE[0].y);
 	printf("@");//打印蛇头
 	snake.length = 3;
 	snake.speed = 250;
 	pre_Dir = right;
-	
+
 	//显示蛇身
 	for (int i = 1; i < snake.length; i++) {
 		snake.snakeNODE[i].y = snake.snakeNODE[i - 1].y;
@@ -128,27 +133,45 @@ void InitMap() {
 	printf("得分：0");
 }
 
-/*仅生成一个食物*/
+/*生成FOOD_COUNT个食物*/
 void printfood() {
-	int flag = 1;
-	while (flag) {
-		flag = 0;
-		food.x = rand() % (map_width - 2) + 1;
-		food.y = rand() % (map_height - 2) + 1;
-		for (int j=0; j < snake.length; j++) {
-			if (food.x == snake.snakeNODE[j].x && food.y == snake.snakeNODE[j].y) {
-				flag = 1;
-				break;
+	for (int i = 0; i < FOOD_COUNT; i++) {
+		int not_permitted = 1;//默认不被允许通过，除非不与蛇身重叠
+
+
+		while (not_permitted) {
+			not_permitted = 0;
+			foods[i].x = rand() % (map_width - 2) + 1;
+			foods[i].y = rand() % (map_height - 2) + 1;
+			foods[i].type = foodTypes[rand() % 3];
+
+			//检查食物是否与蛇身重合
+			for (int j = 0; j < snake.length; j++) {
+				if (foods[i].x == snake.snakeNODE[j].x && foods[i].y == snake.snakeNODE[j].y) {
+					not_permitted = 1;
+					break;
+				}
+			}
+
+			//检查食物是否与其他食物重合
+			for (int k = 0; k < i; k++) {
+				if (foods[i].x == foods[k].x && foods[i].y == foods[k].y) {
+					not_permitted = 1;
+					break;
+				}
 			}
 		}
+		GotoXY(foods[i].x, foods[i].y);
+		printf("%c", foods[i].type);
 	}
-	GotoXY(food.x, food.y);
-	printf("$");
 }
 
+
+
 int Snakemove() {
-	Snakenode temp=snake.snakeNODE[snake.length - 1];//尾节点的记录
+	Snakenode temp = snake.snakeNODE[snake.length - 1];//尾节点的记录
 	int flag = 0;//用于记录是否吃到食物
+
 	for (int i = snake.length - 1; i > 0; i--) {
 		snake.snakeNODE[i] = snake.snakeNODE[i - 1];//前移一个位置
 	}
@@ -196,13 +219,53 @@ int Snakemove() {
 	}
 	GotoXY(snake.snakeNODE[0].x, snake.snakeNODE[0].y);
 	printf("@");
-	if (snake.snakeNODE[0].x == food.x && snake.snakeNODE[0].y == food.y) {
-		snake.length++;
-		flag = 1;//1表示吃到食物
-		snake.snakeNODE[snake.length - 1] = temp;//蛇尾加一节
-		clear();
-		printblock();
+
+	static int eatenFoodsCount = 0; // 记录已被吃掉的食物数量
+
+	int eatenIndex = -1;  // 默认值为-1，表示未吃到食物
+
+	// 遍历所有的食物
+	for (int i = 0; i < FOOD_COUNT; i++) {
+		if (snake.snakeNODE[0].x == foods[i].x && snake.snakeNODE[0].y == foods[i].y) {
+			eatenIndex = i;  // 记录被吃掉的食物的索引
+			break;
+		}
 	}
+
+	// 如果吃到了食物
+	if (eatenIndex != -1) {
+		switch (foods[eatenIndex].type) {
+		case '$':
+			snake.length++;
+			break;
+		case '*':
+			snake.length += 2;
+			break;
+		case '%':
+			snake.length += 3;
+			break;
+		}
+		flag = 1; // 1表示吃到食物
+		snake.snakeNODE[snake.length - 1] = temp; // 蛇尾加一节
+
+		eatenFoodsCount++;  // 增加被吃掉的食物计数器
+
+		// 如果所有食物都被吃掉
+		if (eatenFoodsCount == FOOD_COUNT) {
+			// 重新生成所有食物
+			for (int i = 0; i < FOOD_COUNT; i++) {
+				foods[i].x = rand() % (map_width - 2) + 1;
+				foods[i].y = rand() % (map_height - 2) + 1;
+				foods[i].type = foodTypes[rand() % 3];
+			}
+			clear();
+			printfood();
+			printblock();
+
+			eatenFoodsCount = 0;  // 重置被吃掉的食物计数器
+		}
+	}
+
 	//往某个方向吃到食物，相当于食物变成蛇头，原蛇头变成蛇身
 	//输出此时蛇的状态
 	if (!flag) {
@@ -210,12 +273,12 @@ int Snakemove() {
 		printf(" ");//没吃到则删除蛇尾
 	}
 	else {
-		printfood();
+		//printfood();
 		GotoXY(50, 5);
 		printf("当前得分:%d", snake.length - 3);
 	}
 	/*判断是否死亡，死亡则清除屏幕打印分数*/
-	if (backdoor&&(!check() || !blockcheck())){
+	if (backdoor && (!check() || !blockcheck())) {
 		system("cls");
 		GotoXY(45, 14);
 		printf("Game Over");
@@ -259,23 +322,31 @@ void speedcontrol() {
 	default:break;
 	}
 }
+
+
 //先生成了食物，还要判断是否有食物
 void printblock() {
 	int i = blocknumber;
-	while(i--){
+	while (i--) {
 		block.x = rand() % (map_width - 2) + 1;
 		block.y = rand() % (map_height - 2) + 1;
+
+		// 检查障碍物是否与蛇身重合
 		for (int j = 0; j < snake.length; j++) {
-			if (block.x == snake.snakeNODE[j].x && block.y == snake.snakeNODE[j].y)
-			{
+			if (block.x == snake.snakeNODE[j].x && block.y == snake.snakeNODE[j].y) {
 				i++;
 				break;
 			}
 		}
-		if (block.x == food.x && block.y == food.y) {
-			i++;
-			continue;
+
+		// 检查障碍物是否与食物重合
+		for (int k = 0; k < FOOD_COUNT; k++) {
+			if (block.x == foods[k].x && block.y == foods[k].y) {
+				i++;
+				break;
+			}
 		}
+
 		blocks[i].x = block.x;
 		blocks[i].y = block.y;
 		GotoXY(block.x, block.y);
@@ -283,8 +354,9 @@ void printblock() {
 	}
 }
 
+
 int blockcheck() {
-	for (int j = 0; j < blocknumber; j++){
+	for (int j = 0; j < blocknumber; j++) {
 		for (int i = 0; i < snake.length; i++) {
 			if (blocks[j].x == snake.snakeNODE[i].x && blocks[j].y == snake.snakeNODE[i].y)
 				return 0;
@@ -296,10 +368,10 @@ int blockcheck() {
 void Rank() {
 	GotoXY(43, 12);
 	printf("排行榜：");
-	sort(0,rankindex-1);
+	sort(0, rankindex - 1);
 	for (int i = 0; i < rankindex; i++) {
 		GotoXY(43, 14 + 2 * i);
-		printf("%d.%d", i + 1, ranks[rankindex-i-1]);
+		printf("%d.%d", i + 1, ranks[rankindex - i - 1]);
 	}
 	GotoXY(43, 14 + 2 * rankindex);
 	printf("按任意键以返回上级菜单");
@@ -308,7 +380,7 @@ void Rank() {
 	system("cls");
 }
 
-void sort(int low,int high) {
+void sort(int low, int high) {
 	int i = low;
 	int j = high;
 	int key = ranks[i];
