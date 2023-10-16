@@ -175,6 +175,14 @@ int Snakemove() {
 				pre_Dir = toDir;
 			break;
 		case 'q':
+			system("cls");
+			GotoXY(45, 14);
+			printf("Game Over");
+			GotoXY(45, 16);
+			printf("最终得分:%d", snake.length - 3);
+			ranks[rankindex++] = snake.length - 3;
+			GotoXY(45, 18);
+			printf("按任意键返回主菜单");
 			char ch = _getch();
 			system("cls");
 			return 0;
@@ -192,6 +200,8 @@ int Snakemove() {
 		snake.length++;
 		flag = 1;//1表示吃到食物
 		snake.snakeNODE[snake.length - 1] = temp;//蛇尾加一节
+		clear();
+		printblock();
 	}
 	//往某个方向吃到食物，相当于食物变成蛇头，原蛇头变成蛇身
 	//输出此时蛇的状态
@@ -314,12 +324,32 @@ void sort(int low,int high) {
 }
 
 void Backdoor() {
-	backdoor = 0;
-	GotoXY(43, 12);
-	printf("作弊已启动,连击q以退出");
-	GotoXY(45, 14);
-	printf("按任意键以返回上级菜单");
-	Hide();
-	char number = _getch();
-	system("cls");
+	if (backdoor) {
+		backdoor = 0;
+		GotoXY(43, 12);
+		printf("作弊已启动,q退出，再次打开此页面以退出作弊.");
+		GotoXY(45, 14);
+		printf("按任意键以返回上级菜单");
+		Hide();
+		char number = _getch();
+		system("cls");
+	}
+	else {
+		backdoor = 1;
+		GotoXY(43, 12);
+		printf("作弊已关闭");
+		GotoXY(45, 14);
+		printf("按任意键以返回上级菜单");
+		Hide();
+		char number = _getch();
+		system("cls");
+	}
+
+}
+
+void clear() {
+	for (int j = 0; j < blocknumber; j++) {
+		GotoXY(blocks[j].x, blocks[j].y);
+		printf(" ");
+	}
 }

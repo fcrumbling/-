@@ -41,3 +41,4 @@ int blockcheck();//障碍物碰撞检测
 void Rank();//榜单功能  每次清空，只记录文件执行至结束期间的分数
 void sort(int,int);//排序 快排
 void Backdoor();//开个后门作弊用
+void clear();//清除障碍物
