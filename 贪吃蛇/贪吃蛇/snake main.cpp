@@ -1,4 +1,7 @@
-﻿#include "snake.h"
+﻿//snake main.cpp
+#pragma once
+
+#include "snake.h"
 
 int main()
 {
