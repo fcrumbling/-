@@ -131,9 +131,6 @@
     <ClCompile Include="snake.h" />
     <ClCompile Include="snake main.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\..\writeup_template.md" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
