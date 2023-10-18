@@ -67,7 +67,7 @@ void About()
 	GotoXY(30, 12);
 	printf("贪吃蛇——控制台游戏");
 	GotoXY(34, 14);
-	printf("作者：crumbling、yuuki");
+	printf("作者：crumbling, yuuki");
 	GotoXY(34, 16);
 	printf("按任意键以返回上级菜单");
 	Hide();
@@ -300,12 +300,18 @@ int Snakemove() {
 int check() {
 	if (snake.snakeNODE[0].x == 0 || snake.snakeNODE[0].y == 0 || snake.snakeNODE[0].x == map_width - 1 || snake.snakeNODE[0].y == map_height - 1)
 		return 0;
+
 	for (int i = 1; i < snake.length; i++) {
-		if (snake.snakeNODE[0].x == snake.snakeNODE[i].x && snake.snakeNODE[0].y == snake.snakeNODE[i].y)
-			return 0;
+		if (snake.snakeNODE[0].x == snake.snakeNODE[i].x && snake.snakeNODE[0].y == snake.snakeNODE[i].y) {
+			//截掉撞击点及其之后的蛇身部分
+			snake.length = i;
+			return 1; //仍然返回1，因为游戏还在进行中
+		}
 	}
+
 	return 1;
 }
+
 
 void speedcontrol() {
 	switch (snake.length) {

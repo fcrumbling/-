@@ -25,7 +25,4 @@
       <Filter>头文件</Filter>
     </ClCompile>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\..\writeup_template.md" />
-  </ItemGroup>
 </Project>
