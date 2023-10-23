@@ -24,10 +24,10 @@ int Menu();
 void SetPosition(int x, int y);
 
 // 输入多个学生记录
-void InputRecord(STU students[], int totalStudents, int courseCount);
+void InputRecord(STU students[], int* totalStudents, int* courseCount);
 
 // 追加学生记录
-void AppendRecord(STU students[], int totalStudents, int courseCount);
+void AppendRecord(STU students[], int* totalStudents, int courseCount);
 
 // 删除指定学生记录
 void DeleteRecord(STU students[], int totalStudents, int courseCount);
@@ -72,4 +72,4 @@ void PrintRecord(STU students[], int totalStudents, int courseCount);
 void WriteToFile(STU records[], int totalStudents, int courseCount);
 
 // 从文件读取学生记录
-int ReadFromFile(STU records[], int totalStudents, int courseCount, int first);
+int ReadFromFile(STU records[], int* totalStudents, int* courseCount, int* first);
