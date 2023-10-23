@@ -5,11 +5,11 @@ void SetPosition(int x, int y) {
 
 }
 
-void InputRecord(STU students[], int totalStudents, int courseCount)
+void InputRecord(STU students[], int* totalStudents, int* courseCount)
 {
 }
 
-void AppendRecord(STU students[], int totalStudents, int courseCount)
+void AppendRecord(STU students[], int* totalStudents, int courseCount)
 {
 }
 
@@ -71,7 +71,7 @@ void WriteToFile(STU records[], int totalStudents, int courseCount)
 {
 }
 
-int ReadFromFile(STU records[], int totalStudents, int courseCount, int first)
+int ReadFromFile(STU records[], int* totalStudents, int* courseCount, int* first)
 {
 	return 0;
 }
