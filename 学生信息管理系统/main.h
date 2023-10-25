@@ -2,11 +2,21 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include<Windows.h>
 using namespace std;
 
 #define STU_NUM 50
 #define COURSE_NUM 10
 #define NAME_LEN 10
+#define STU_NUM 50//教学班上人数上限
+#define COURSE_NUM 10//一学期课程门数上限
+#define NAME_LEN 10//学生姓名长度上限
+#define POS_X1 35//第一列
+#define POS_X2 40
+#define POS_X3 50//标题
+#define POS_X4 60//第二列
+#define POS_Y 3
+
 
 struct Student {
     long num;
