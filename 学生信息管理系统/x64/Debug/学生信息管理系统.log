@@ -1,2 +1,11 @@
-﻿  main.cpp
+﻿  logic.cpp
+S:\myC_but_VS\2023-c-project\学生信息管理系统\logic.cpp(7,16): warning C4838: 从“int”转换到“SHORT”需要收缩转换
+S:\myC_but_VS\2023-c-project\学生信息管理系统\logic.cpp(7,18): warning C4838: 从“int”转换到“SHORT”需要收缩转换
+S:\myC_but_VS\2023-c-project\学生信息管理系统\logic.cpp(46,10): warning C4477: “printf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 1 拥有了类型“size_t”
+S:\myC_but_VS\2023-c-project\学生信息管理系统\logic.cpp(46,10): message : 请考虑在格式字符串中使用“%zd”
+S:\myC_but_VS\2023-c-project\学生信息管理系统\logic.cpp(27,6): warning C4101: “i”: 未引用的局部变量
+  main.cpp
+  menu.cpp
+S:\myC_but_VS\2023-c-project\学生信息管理系统\menu.cpp(7,9): warning C4101: “i”: 未引用的局部变量
+  正在生成代码...
   学生信息管理系统.vcxproj -> S:\myC_but_VS\2023-c-project\学生信息管理系统\x64\Debug\学生信息管理系统.exe

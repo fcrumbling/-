@@ -1,16 +1,18 @@
 // main.cpp
 #include "main.h"
-#include "student.h"
 
 int main() {
 	STU students[STU_NUM];
 	int totalStudents = 0;
 	int courseCount = 0;
 	while (true) {
+		system("cls");
 		int choice = Menu();
 		
 		switch (choice) {
 		case 1:
+			system("cls");
+			InputRecord(students , &totalStudents ,&courseCount );
 			break;
 		case 2:
 			break;

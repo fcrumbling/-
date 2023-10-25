@@ -24,18 +24,12 @@
     <ClCompile Include="menu.cpp">
       <Filter>源文件\funcs</Filter>
     </ClCompile>
-    <ClCompile Include="student.cpp">
-      <Filter>源文件\funcs</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="student.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
