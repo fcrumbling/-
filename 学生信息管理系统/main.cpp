@@ -1,6 +1,6 @@
 // main.cpp
 #include "main.h"
-
+//
 int main() {
 	STU students[STU_NUM];
 	int totalStudents = 0;
