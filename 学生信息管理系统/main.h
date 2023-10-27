@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include<Windows.h>
+#include<conio.h>
 using namespace std;
 
 #define STU_NUM 50
@@ -79,7 +80,7 @@ void StatisticAnalysis(STU students[], int totalStudents, int courseCount);
 void PrintRecord(STU students[], int totalStudents, int courseCount);
 
 // 将学生记录写入文件
-void WriteToFile(STU records[], int totalStudents, int courseCount);
+void WriteToFile(STU students[], int totalStudents, int courseCount);
 
 // 从文件读取学生记录
 int ReadFromFile(STU records[], int* totalStudents, int* courseCount, int* first);

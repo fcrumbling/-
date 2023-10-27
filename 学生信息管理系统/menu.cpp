@@ -8,7 +8,7 @@ int Menu() {
     SetPosition(POS_X3, posy);
     printf("学生成绩管理系统\n");//输出系统的的名字
     //输出分割线
-    for (int i = 0; i < 2; i++) {
+    for (i = 0; i < 2; i++) {
 		SetPosition(POS_X1, ++posy);
         for (j = 0; j < 55; j++) {
 			printf("-"); 
