@@ -68,10 +68,18 @@ int main() {
 				_getch();
 				break;
 			}
-			WriteToFile(students, totalStudents, courseCount);
+			WriteToFile(students, totalStudents, courseCount,".\\data\\records.txt");
 			_getch();
 			break;
 		case 16:
+			system("cls");
+			if (ReadFromFile(students,&totalStudents, &courseCount, &first) || first) {
+				SetPosition(POS_X1, 10);
+				cout << "ÉÐÎ´ÊäÈë" << endl;
+				_getch();
+				break;
+			}
+			_getch();
 			break;
 		case 0:
 			return 0;

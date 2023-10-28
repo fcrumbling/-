@@ -141,29 +141,101 @@ void PrintRecord(STU students[], int totalStudents, int courseCount)
 {
 }
 
-void WriteToFile(STU students[], int totalStudents, int courseCount)
+void WriteToFile(STU students[], int totalStudents, int courseCount, const char* filePath)
 {
 	int i, j;
 	FILE* fp = NULL;
-	errno_t err = fopen_s(&fp, ".\\data\\records.txt", "w");
+	errno_t err = fopen_s(&fp, filePath, "w");
 	if (err != 0 || fp == NULL) {
-		cout << "文件打开失败!";
+		std::cout << "文件打开失败!" << std::endl;
 		exit(0);
 	}
 
-	fprintf(fp, "%10ld%10d\n", totalStudents, courseCount);
-	for (i = 0; i < totalStudents; i++) {
-		fprintf(fp, "%10ld%10s", students[i].num, students[i].name);
-		for (j = 0; j < courseCount; j++) {
-			fprintf(fp, "%10lf", students[i].score[j]);
-		}
-		fprintf(fp, "%10ld%10lf\n", students[i].sum, students[i].aver);
+	int ret = fprintf(fp, "%10d%10d\n", totalStudents, courseCount);
+	if (ret < 0) {
+		std::cout << "写入文件失败!" << std::endl;
+		fclose(fp);
+		exit(0);
 	}
+
+	for (i = 0; i < totalStudents; i++) {
+		// 确保名字是以null终止的
+		students[i].name[sizeof(students[i].name) - 1] = '\0';
+
+		ret = fprintf(fp, "%10ld%50s", students[i].num, students[i].name);
+		if (ret < 0) {
+			std::cout << "写入文件失败!" << std::endl;
+			fclose(fp);
+			exit(0);
+		}
+
+		for (j = 0; j < courseCount; j++) {
+			ret = fprintf(fp, "%10f", students[i].score[j]);
+			if (ret < 0) {
+				std::cout << "写入文件失败!" << std::endl;
+				fclose(fp);
+				exit(0);
+			}
+		}
+
+		ret = fprintf(fp, "%10lf%10lf\n", students[i].sum, students[i].aver);
+		if (ret < 0) {
+			std::cout << "写入文件失败!" << std::endl;
+			fclose(fp);
+			exit(0);
+		}
+	}
+
 	fclose(fp);
-	cout << "文件保存成功！"<<endl; 
+	std::cout << "文件保存成功！" << std::endl;
 }
+
 
 int ReadFromFile(STU records[], int* totalStudents, int* courseCount, int* first)
 {
+	FILE* fp = NULL;
+	int i, j;
+	int posy = 8;
+	SetPosition(POS_X1, posy);  
+	errno_t err = fopen_s(&fp, ".\\data\\records.txt", "r");
+	if (err != 0 || fp == NULL) {
+		std::cout << "文件打开失败!";
+		return 1;
+	}
+
+	int ret = fscanf_s(fp, "%10d%10d", totalStudents, courseCount);
+	if (ret != 2) {
+		std::cout << "读取文件头失败!";
+		fclose(fp);
+		return 1;
+	}
+
+	for (i = 0; i < *totalStudents; i++) {
+		ret = fscanf_s(fp, "%10ld%50s", &records[i].num, records[i].name, _countof(records[i].name));
+		if (ret != 2) {
+			std::cout << "读取学生记录失败!";
+			fclose(fp);
+			return 1;
+		}
+
+		for (j = 0; j < *courseCount; j++) {
+			ret = fscanf_s(fp, "%10f", &records[i].score[j]);  // 更新为 %10f
+			if (ret != 1) {
+				std::cout << "读取分数失败!";
+				fclose(fp);
+				return 1;
+			}
+		}
+
+		ret = fscanf_s(fp, "%10f%10f", &records[i].sum, &records[i].aver);  // 更新为 %10f
+		if (ret != 2) {
+			std::cout << "读取总分和平均分失败!";
+			fclose(fp);
+			return 1;
+		}
+	}
+
+	fclose(fp);
+	printf("读取完毕！\n");
 	return 0;
 }
