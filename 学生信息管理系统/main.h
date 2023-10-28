@@ -19,15 +19,13 @@ using namespace std;
 #define POS_Y 3
 
 
-struct Student {
+struct STU {
     long num;
-    string name;
-    float score[COURSE_NUM];
-    float sum;
-    float aver;
+    char name[50];
+    float score[10];  
+    float sum;  
+    float aver;  
 };
-
-using STU = Student;
 
 int Menu();
 
@@ -80,7 +78,7 @@ void StatisticAnalysis(STU students[], int totalStudents, int courseCount);
 void PrintRecord(STU students[], int totalStudents, int courseCount);
 
 // 将学生记录写入文件
-void WriteToFile(STU students[], int totalStudents, int courseCount);
+void WriteToFile(STU students[], int totalStudents, int courseCount, const char* filePath);
 
 // 从文件读取学生记录
 int ReadFromFile(STU records[], int* totalStudents, int* courseCount, int* first);
