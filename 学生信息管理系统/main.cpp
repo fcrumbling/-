@@ -19,6 +19,14 @@ int main() {
 		case 2:
 			break;
 		case 3:
+			system("cls");
+			if (first) {
+				printf("系统中尚无学生信息，请先输入!\n");
+				system("pause");
+				return;
+			}
+			DeleteRecord(students, &totalStudents, courseCount);
+			system("pause");
 			break;
 		case 4:
 			break;
