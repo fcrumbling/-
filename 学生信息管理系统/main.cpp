@@ -30,6 +30,14 @@ int main() {
 
 			break;
 		case 3:
+			system("cls");
+			if (first) {
+				printf("系统中尚无学生信息，请先输入!\n");
+				system("pause");
+				return;
+			}
+			DeleteRecord(students, &totalStudents, courseCount);
+			system("pause");
 			break;
 		case 4:
 			system("cls"); 
@@ -47,6 +55,14 @@ int main() {
 
 			break;
 		case 6:
+			system("cls");
+			if (first) {
+				printf("系统中尚无学生信息，请先输入!\n");
+				system("pause");
+				break;
+			}
+			ModifyRecord(students, courseCount, totalStudents);
+			system("pause");
 			break;
 		case 7:
 			system("cls");

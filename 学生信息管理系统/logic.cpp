@@ -77,9 +77,48 @@ void AppendRecord(STU students[], int* totalStudents, int courseCount)
 	return;
 }
 
-void DeleteRecord(STU students[], int totalStudents, int courseCount)
+void DeleteRecord(STU students[], int* totalStudents, int courseCount)
 {
+	int i, j;
+	long id;
+	char ch;
+	printf("请输入你要删除学生信息对应的学号：");
+	scanf_s("%ld", &id);
+	for (i = 0; i < *totalStudents; i++)
+	{
+		if (students[i].num == id)
+		{
+			printf("找到了该学生的记录，信息为：\n");
+			printf("%10ld%15s", students[i].num, students[i].name);
+			for (j = 0; j < courseCount; j++) {
+				printf("%10.2f", students[i].score[j]);
+			}
+			printf("%10.2f%10.2f\n", students[i].sum, students[i].aver);
+			printf("请确认是否需要删除这条记录？（Y/y或N/n）:");
+			getchar();
+			scanf_s("%c", &ch);
+			if (ch == 'Y' || ch == 'y') {
+				for (j = i; j < *totalStudents - 1; j++)
+				{
+					students[j] = students[j + 1];
+				}
+				printf("删除完毕\n");
+				return;
+			}
+			else if (ch == 'N' || ch == 'n') {
+				printf("找到了该学生记录，但不删除");
+				return;
+			}
+			else {
+				printf("输入出错！\n");
+				return;
+			}
+		}
+	}
+	printf("没找到记录！\n");
+	return;
 }
+
 
 void SearchByNum(STU students[], int totalStudents, int courseCount)
 {
@@ -102,10 +141,65 @@ void SearchByNum(STU students[], int totalStudents, int courseCount)
 
 void SearchByName(STU students[], int totalStudents, int courseCount)
 {
+	int flag = 1;
+	int i, j;
+	int k = 0;
+	char name[NAME_LEN];
+	printf("请输入你要查找的学生的姓名");
+	scanf_s("%s", name);
+	for (i = 0; i < totalStudents; i++) {
+		if (strcmp(students[i].name, name) == 0) {
+			printf("找到了，第%d学生信息为:\n", ++k);
+			for (j = 0; j < courseCount; j++) {
+				printf("%10.2f", students[i].score[j]);
+			}
+			printf("%10.2f%10.2f\n0", students[i].num, students[i].aver);
+		}
+	}
 }
 
 void ModifyRecord(STU students[], int totalStudents, int courseCount)
 {
+	int i, j;
+	long id;
+	char ch;
+	printf("请输入需要修改的对应学号:");
+	scanf_s("%ld", &id);
+	for (i = 0; i < totalStudents; i++) {
+		if (students[i].num == id) {
+			printf("找到了该生记录，信息为:\n");
+			printf("%10ld%15s", students[i].num, students[i].name);
+			for (j = 0; j < courseCount; j++){
+				printf("%10.2f", students[i].score[j]);
+			}
+			printf("%10.2f%20.2f\n", students[i].sum, students[i].aver);
+			printf("请确认是否需要修改？（Y/N或y/n）");
+			getchar();
+			scanf_s("%c", ch);
+			if (ch == 'Y' || ch == 'y') {
+				printf("请输入要修改的学生信息");
+				scanf_s("%ld%s", &students[i].num, students[i].name);
+				students[i].sum = 0;
+				for (j = 0; j < courseCount; j++) {
+					scanf_s("%f", &students[i].score[j]);
+					students[i].sum += students[i].score[j];
+				}
+				students[i].aver = students[i].sum / courseCount;
+				printf("修改完毕\n");
+				return;
+			}
+			else if (ch == 'N' || ch == 'n') {
+				printf("找到了该生记录，但不修改\n");
+				return;
+			}
+			else {
+				printf("输入出错！\n");
+				return;
+			}
+		}
+	}
+	printf("没找到记录！\n");
+	return;
 }
 
 void CalculateScoreOfStudent(STU students[], int totalStudents, int courseCount)

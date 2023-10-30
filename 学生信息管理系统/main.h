@@ -39,7 +39,7 @@ void InputRecord(STU students[], int* totalStudents, int* courseCount);
 void AppendRecord(STU students[], int* totalStudents, int courseCount);
 
 // 删除指定学生记录
-void DeleteRecord(STU students[], int totalStudents, int courseCount);
+void DeleteRecord(STU students[], int* totalStudents, int courseCount);
 
 // 通过学号搜索学生记录
 void SearchByNum(STU students[], int totalStudents, int courseCount);
