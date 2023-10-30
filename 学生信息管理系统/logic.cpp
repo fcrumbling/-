@@ -116,14 +116,14 @@ void SearchByName(STU students[], int totalStudents, int courseCount)
 	int k = 0;
 	char name[NAME_LEN];
 	printf("请输入你要查找的学生的姓名");
-	scanf_s("%s", name);
+	scanf("%s", name);
 	for (i = 0; i < totalStudents; i++) {
 		if (strcmp(students[i].name, name) == 0) {
 			printf("找到了，第%d学生信息为:\n", ++k);
 			for (j = 0; j < courseCount; j++) {
-				printf("%10.2f", students[i].score[j]);
+				printf("%10.2f ", students[i].score[j]);
 			}
-			printf("%10.2f%10.2f\n0", students[i].num, students[i].aver);
+			printf("%10.2f %10.2f\n0", students[i].sum, students[i].aver);
 		}
 	}
 }
@@ -145,13 +145,13 @@ void ModifyRecord(STU students[], int totalStudents, int courseCount)
 			printf("%10.2f%20.2f\n", students[i].sum, students[i].aver);
 			printf("请确认是否需要修改？（Y/N或y/n）");
 			getchar();
-			scanf_s("%c", ch);
+			scanf("%c", ch);
 			if (ch == 'Y' || ch == 'y') {
 				printf("请输入要修改的学生信息");
-				scanf_s("%ld%s", &students[i].num, students[i].name);
+				scanf("%ld%s", &students[i].num, students[i].name);
 				students[i].sum = 0;
 				for (j = 0; j < courseCount; j++) {
-					scanf_s("%f", &students[i].score[j]);
+					scanf("%f", &students[i].score[j]);
 					students[i].sum += students[i].score[j];
 				}
 				students[i].aver = students[i].sum / courseCount;
@@ -205,24 +205,69 @@ void CalculateScoreOfCourse(STU students[], int totalStudents, int courseCount)
 
 void SortByNum(STU students[], int totalStudents, int courseCount)
 {
+	int i, j;
+	int k;
+	struct STU temp;
+	for (i = 0; i < totalStudents; i++) {
+		k = i;
+		for (j = i + 1; i < totalStudents; j++) {
+			if (students[j].num < students[k].num)
+				k = j;
+		}
+		if (k != i) {
+			temp = students[k];
+			students[k] = students[i];
+			students[i] = temp;
+		}
+	}
+	printf("按学号从小到大对学生记录排序完毕");
 }
 
 void SortByName(STU students[], int totalStudents, int courseCount)
 {
+	int i, j;
+	struct STU temp;
+	for (i = 0; i < totalStudents; i++) {
+		for (j = 0; j < totalStudents - 1 - i; j++) {
+			if (strcmp(students[j].name, students[j + 1].name) > 0) {
+				temp = students[j];
+				students[j] = students[j + 1];
+				students[j + 1] = temp;
+			}
+		}
+	}
+	printf("按姓名字典对学生记录排序完毕");
+	return;
 }
 
 void SortByScore(STU students[], int totalStudents, int courseCount, int(*compare)(float a, float b))
 {
+	int i, j;
+	int k;
+	struct STU temp;
+	for (i = 0; i < totalStudents; i++) {
+		k = i;
+		for (j = i + 1; j < totalStudents; j++) {
+			if ((*compare)(students[j].sum,students[k].sum))
+				k = j;
+		}
+		if (k != 1) {
+			temp = students[k];
+			students[k] = students[i];
+			students[i] = temp;
+		}
+	}
+	printf("按总分对学生记录升序排序完毕");
 }
 
 int Ascending(float a, float b)
 {
-	return 0;
+	return a<b;
 }
 
 int Descending(float a, float b)
 {
-	return 0;
+	return a>b;
 }
 
 void StatisticAnalysis(STU students[], int totalStudents, int courseCount)
@@ -231,6 +276,20 @@ void StatisticAnalysis(STU students[], int totalStudents, int courseCount)
 
 void PrintRecord(STU students[], int totalStudents, int courseCount)
 {
+	int i, j;
+	printf("学号\t\t姓名\t\t");
+	for (j = 0; j < courseCount; j++) {
+		printf("课程%d\t\t", j + 1);
+	}
+	printf("总分\t\t平均分\n");
+	for (i = 0; i < totalStudents; i++) {
+		printf("%-16ld%-16s", students[i].num, students[i].name);
+		for (j = 0; j < totalStudents; j++) {
+			printf("%-16.1lf", students[i].score[j]);
+		}
+		printf("%-16.1lf%-16.1lf\n", students[i].sum, students[i].aver);
+	}
+	return;
 }
 
 void WriteToFile(STU students[], int totalStudents, int courseCount, const char* filePath)

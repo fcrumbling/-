@@ -27,6 +27,11 @@ struct STU {
     float aver;  
 };
 
+struct Node {
+    struct STU student;
+    struct Node* next;
+};
+
 int Menu();
 
 // 设置控制台光标位置
