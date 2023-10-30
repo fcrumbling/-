@@ -17,6 +17,17 @@ int main() {
 			first = 0;
 			break;
 		case 2:
+			system("cls");
+			if (first) {
+				cout << "系统中暂无学生成绩信息！" << endl;
+				system("pause");
+				break;
+
+			}
+			AppendRecord(students, &totalStudents, courseCount);
+			system("pause"); 
+			break;
+
 			break;
 		case 3:
 			system("cls");
@@ -29,16 +40,19 @@ int main() {
 			system("pause");
 			break;
 		case 4:
+			system("cls"); 
+			if (first) {
+				cout << "系统中暂无学生成绩信息!" << endl;
+				system("pause");
+				break; 
+			}
+			SearchByNum(students, totalStudents, courseCount);
+			system("pause");
+			
 			break;
 		case 5:
-			system("cls");
-			if (first) {
-				printf("系统中尚无学生信息，请先输入!\n");
-				system("pause");
-				break;
-			}
-			SearchByName(students, courseCount, totalStudents);
-			system("pause");
+
+
 			break;
 		case 6:
 			system("cls");
@@ -118,6 +132,16 @@ int main() {
 			_getch();
 			break;
 		case 13:
+			system("cls");
+			if (first) {
+				SetPosition(POS_X3, POS_Y);
+				printf("系统中暂无学生成绩信息!\n");
+				_getch();
+				break;
+			}
+			StatisticAnalysis(students, totalStudents, courseCount);
+			_getch();
+			break;
 			break;
 		case 14:
 			system("cls");
@@ -143,7 +167,7 @@ int main() {
 			break;
 		case 16:
 			system("cls");
-			if (ReadFromFile(students,&totalStudents, &courseCount, &first) || first) {
+			if (ReadFromFile(students,&totalStudents, &courseCount, &first)) {
 				SetPosition(POS_X1, 10);
 				cout << "尚未输入" << endl;
 				_getch();
