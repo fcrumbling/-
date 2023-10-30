@@ -41,6 +41,14 @@ int main() {
 			system("pause");
 			break;
 		case 6:
+			system("cls");
+			if (first) {
+				printf("系统中尚无学生信息，请先输入!\n");
+				system("pause");
+				break;
+			}
+			ModifyRecord(students, courseCount, totalStudents);
+			system("pause");
 			break;
 		case 7:
 			system("cls");

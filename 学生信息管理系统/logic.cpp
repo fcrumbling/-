@@ -130,6 +130,46 @@ void SearchByName(STU students[], int totalStudents, int courseCount)
 
 void ModifyRecord(STU students[], int totalStudents, int courseCount)
 {
+	int i, j;
+	long id;
+	char ch;
+	printf("请输入需要修改的对应学号:");
+	scanf_s("%ld", &id);
+	for (i = 0; i < totalStudents; i++) {
+		if (students[i].num == id) {
+			printf("找到了该生记录，信息为:\n");
+			printf("%10ld%15s", students[i].num, students[i].name);
+			for (j = 0; j < courseCount; j++){
+				printf("%10.2f", students[i].score[j]);
+			}
+			printf("%10.2f%20.2f\n", students[i].sum, students[i].aver);
+			printf("请确认是否需要修改？（Y/N或y/n）");
+			getchar();
+			scanf_s("%c", ch);
+			if (ch == 'Y' || ch == 'y') {
+				printf("请输入要修改的学生信息");
+				scanf_s("%ld%s", &students[i].num, students[i].name);
+				students[i].sum = 0;
+				for (j = 0; j < courseCount; j++) {
+					scanf_s("%f", &students[i].score[j]);
+					students[i].sum += students[i].score[j];
+				}
+				students[i].aver = students[i].sum / courseCount;
+				printf("修改完毕\n");
+				return;
+			}
+			else if (ch == 'N' || ch == 'n') {
+				printf("找到了该生记录，但不修改\n");
+				return;
+			}
+			else {
+				printf("输入出错！\n");
+				return;
+			}
+		}
+	}
+	printf("没找到记录！\n");
+	return;
 }
 
 void CalculateScoreOfStudent(STU students[], int totalStudents, int courseCount)
@@ -142,8 +182,6 @@ void CalculateScoreOfStudent(STU students[], int totalStudents, int courseCount)
 		students[i].aver = students[i].sum / courseCount;
 		printf("第%d个学生：总分=%.2f平均分=%.2f\n", i + 1, students[i].sum, students[i].aver);
 	}
-	
-	
 }
 
 
