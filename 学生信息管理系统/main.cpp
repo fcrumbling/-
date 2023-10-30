@@ -17,12 +17,34 @@ int main() {
 			first = 0;
 			break;
 		case 2:
+			system("cls");
+			if (first) {
+				cout << "系统中暂无学生成绩信息！" << endl;
+				system("pause");
+				break;
+
+			}
+			AppendRecord(students, &totalStudents, courseCount);
+			system("pause"); 
+			break;
+
 			break;
 		case 3:
 			break;
 		case 4:
+			system("cls"); 
+			if (first) {
+				cout << "系统中暂无学生成绩信息!" << endl;
+				system("pause");
+				break; 
+			}
+			SearchByNum(students, totalStudents, courseCount);
+			system("pause");
+			
 			break;
 		case 5:
+
+
 			break;
 		case 6:
 			break;

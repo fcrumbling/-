@@ -60,6 +60,20 @@ void InputRecord(STU students[], int* totalStudents, int* courseCount)
 
 void AppendRecord(STU students[], int* totalStudents, int courseCount)
 {
+	int i, j;
+	int num_record;
+	cout << "请输入要增加的学生记录条数：" << endl;
+	cin >> num_record;
+	for (i = *totalStudents; i < *totalStudents+num_record; i++) {
+		cout << "请输入第" << i + 1 << "个学生的信息：" << endl;
+		cin >> students[ i].num >> students[ i].name;
+		for (j = 0; j < courseCount; j++) {
+			cin >> students[i].score[j];
+		}
+	}
+	*totalStudents += num_record;
+	cout << "增加成功！" << endl;
+	return;
 }
 
 void DeleteRecord(STU students[], int totalStudents, int courseCount)
@@ -68,6 +82,21 @@ void DeleteRecord(STU students[], int totalStudents, int courseCount)
 
 void SearchByNum(STU students[], int totalStudents, int courseCount)
 {
+	long id;
+	int i, j;
+	cout << "请输入要查找的学生学号：" << endl; 
+	cin >> id;
+	for (int i = 0; i < totalStudents; i++) {
+		if (students[i].num == id) {
+			cout << "查找成功！" << endl;
+			for (j = 0; j < courseCount; j++) {
+				cout << "第" << i + 1 << "个学生的第" << j + 1 << "门课程的成绩为:" << students[i].score[j] << endl;
+			}
+			return;
+		}
+	}
+	printf("查找失败!\n"); 
+	return;
 }
 
 void SearchByName(STU students[], int totalStudents, int courseCount)
