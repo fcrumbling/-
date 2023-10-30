@@ -34,7 +34,7 @@ int main() {
 			if (first) {
 				printf("系统中尚无学生信息，请先输入!\n");
 				system("pause");
-				return;
+				break;
 			}
 			DeleteRecord(students, &totalStudents, courseCount);
 			system("pause");
@@ -87,12 +87,49 @@ int main() {
 			_getch();
 			break;
 		case 9:
+			system("cls");
+			if (first) {
+				SetPosition(POS_X3, POS_Y);
+				printf("系统中暂无学生成绩信息!");
+				_getch();
+				break;
+			}
+			SortByNum(students, totalStudents, courseCount);
+			_getch();
+			break;
 			break;
 		case 10:
+			system("cls");
+			if (first) {
+				SetPosition(POS_X3, POS_Y);
+				printf("系统中暂无学生成绩信息!");
+				_getch();
+				break;
+			}
+			SortByName(students, totalStudents, courseCount);
+			_getch();
 			break;
 		case 11:
+			system("cls");
+			if (first) {
+				SetPosition(POS_X3, POS_Y);
+				printf("系统中暂无学生成绩信息!");
+				_getch();
+				break;
+			}
+			SortByScore(students, totalStudents, courseCount,Descending);
+			_getch();
 			break;
 		case 12:
+			system("cls");
+			if (first) {
+				SetPosition(POS_X3, POS_Y);
+				printf("系统中暂无学生成绩信息!");
+				_getch();
+				break;
+			}
+			SortByScore(students, totalStudents, courseCount,Ascending);
+			_getch();
 			break;
 		case 13:
 			system("cls");
@@ -107,6 +144,15 @@ int main() {
 			break;
 			break;
 		case 14:
+			system("cls");
+			if (first) {
+				SetPosition(POS_X3, POS_Y);
+				printf("系统中尚无学生信息，请先输入!\n");
+				system("pause");
+				break;
+			}
+			PrintRecord(students, courseCount, totalStudents);
+			system("pause");
 			break;
 		case 15:
 			system("cls");
