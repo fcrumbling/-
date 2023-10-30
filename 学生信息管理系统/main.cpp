@@ -79,6 +79,16 @@ int main() {
 		case 12:
 			break;
 		case 13:
+			system("cls");
+			if (first) {
+				SetPosition(POS_X3, POS_Y);
+				printf("系统中暂无学生成绩信息!\n");
+				_getch();
+				break;
+			}
+			StatisticAnalysis(students, totalStudents, courseCount);
+			_getch();
+			break;
 			break;
 		case 14:
 			break;
@@ -95,7 +105,7 @@ int main() {
 			break;
 		case 16:
 			system("cls");
-			if (ReadFromFile(students,&totalStudents, &courseCount, &first) || first) {
+			if (ReadFromFile(students,&totalStudents, &courseCount, &first)) {
 				SetPosition(POS_X1, 10);
 				cout << "尚未输入" << endl;
 				_getch();
