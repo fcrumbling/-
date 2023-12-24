@@ -6,23 +6,21 @@
 HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
 int loop = 0;
 
-int menu();// 显示主菜单和获取用户输入
-// 显示主菜单选项并获取用户输入
-int menu_2();// 显示第二层菜单和获取用户输入
-int menu_3();// 显示第三层菜单和获取用户输入
+int menu();// 显示主菜单
+int menu2();// 显示查询菜单
+int menu3();// 显示统计菜单
 void gotoxy();// 将光标移动到控制台上的指定位置
 void HideCursor();// 隐藏控制台中的光标
-void InsertInformation();// 插入关于车辆的信息
-// 提示用户输入信息并将其添加到车辆数组中
-void PrintInformation();//显示所有车辆信息
+void Insert();// 插入关于车辆的信息
+void Print();//显示所有车辆信息
 void IdSearch();//根据身份证号搜索车辆信息
 void PlateNumber();//根据车牌号搜索车辆信息
 void ExitSystem();//退出系统
-void ReviseInformation();//修改车辆信息
-void DeleteInformation();//删除车辆信息
-void AddInformation();//追加车辆信息
-void MoneySum();//统计车辆总收入
-void ChampionCar();//查找盈利最高的车辆
+void Revise();//修改车辆信息
+void Delete();//删除车辆信息
+void Add();//追加车辆信息
+void Money();//统计车辆总收入
+void MaxCar();//查找盈利最高的车辆
 
 struct information {
     int theOrderNumber;
@@ -38,13 +36,13 @@ int main() {
     switch (key) {
     case 1:
         system("cls");
-        InsertInformation();
+        Insert();
         break;
     case 2:
-        PrintInformation();
+        Print();
         break;
     case 3:
-        switch (menu_2()) {
+        switch (menu2()) {
         case 1:
             IdSearch();
             break;
@@ -61,21 +59,21 @@ int main() {
         }
         break;
     case 4:
-        ReviseInformation();
+        Revise();
         break;
     case 5:
-        DeleteInformation();
+        Delete();
         break;
     case 6:
-        AddInformation();
+        Add();
         break;
     case 7:
-        switch (menu_3()) {
+        switch (menu3()) {
         case 1:
-            MoneySum();
+            Money();
             break;
         case 2:
-            ChampionCar();
+            MaxCar();
             break;
         case 3:
             system("cls");
@@ -140,7 +138,7 @@ int menu(void) {
     }
     return choose;
 }
-int menu_2(void) {
+int menu2(void) {
     system("cls");
     int i, choose;
     gotoxy(40, 6);
@@ -165,7 +163,7 @@ int menu_2(void) {
     }
     return choose;
 }
-int menu_3(void) {
+int menu3(void) {
     system("cls");
     int i, choose;
     gotoxy(40, 6);
@@ -190,15 +188,14 @@ int menu_3(void) {
     }
     return choose;
 }
-void InsertInformation() {
+void Insert() {
     system("cls");
     int a, k, j, x, one;
     double cost;
     int i = 0;
     do {
         system("cls");
-        printf("\n----------------------------------------------------\n");
-        printf("\t ———信息录入———\n\n");
+        printf("——————信息录入——————\n\n");
         fflush(stdin);     //清空缓冲区
         printf("请输入订单号(1-10000):");
         scanf("%d", &x);
@@ -238,11 +235,10 @@ void InsertInformation() {
         ExitSystem();
     }
 }
-void PrintInformation() {
+void Print() {
     system("cls");
     int a, j;
-    printf("\n----------------------------------------------------\n");
-    printf("\t ———信息显示———\n\n");
+    printf("——————信息显示——————\n\n");
     if (loop == 0) {
         printf("Error,无数据,请添加数据后再试\n");
     }
@@ -281,8 +277,7 @@ void IdSearch() {
     int i, j, a;
     do {
         system("cls");
-        printf("\n----------------------------------------------------\n");
-        printf("\t ———查询(按照身份证号)———\n\n");
+        printf("——————查询(按照身份证号)——————\n\n");
         if (loop == 0) {
             gotoxy(3, 5);
             printf("无数据，请录入数据后查询，输入任意键返回主菜单");
@@ -337,8 +332,7 @@ void PlateNumber() {
     int i, j, a;
     do {
         system("cls");
-        printf("\n----------------------------------------------------\n");
-        printf("\t ———查询(按照车牌号)———\n\n");
+        printf("——————查询(按照车牌号)——————\n\n");
         if (loop == 0) {
             gotoxy(3, 5);
             printf("无数据，请录入数据后查询，输入任意键返回主菜单");
@@ -371,11 +365,11 @@ void PlateNumber() {
                 printf("%f", car[i].Cost);
                 break;
             }
-            if (j == 0) {
-                gotoxy(3, 7);
-                printf("对不起，未查询到您输入的车牌号，请核实后重新输入");
-                break;
-            }
+        }
+        if (j == 0) {
+            gotoxy(3, 7);
+            printf("对不起，未查询到您输入的车牌号，请核实后重新输入");
+            break;
         }
         gotoxy(3, 11);
         printf("查询完成，输入1继续查询，输入2返回主菜单，按其他键退出程序!");
@@ -389,13 +383,11 @@ void PlateNumber() {
         ExitSystem();
     }
 }
-void ReviseInformation() {
+void Revise() {
     char idnumber[20];
     int i, j, a, b, c, cost;
     do {
-        system("cls");
-        printf("\n----------------------------------------------------\n");
-        printf("\t ———信息修改———\n\n");
+        system("cls");;
         if (loop == 0) {
             gotoxy(3, 5);
             printf("无数据，请录入数据后查询，输入任意键返回主菜单");
@@ -403,7 +395,6 @@ void ReviseInformation() {
             system("cls");
             main();
         }
-        gotoxy(3, 5);
         printf("请输入需要修改的信息的身份证号:");
         scanf("%s", &idnumber);
         j = 0;
@@ -412,26 +403,25 @@ void ReviseInformation() {
                 j = 1;
                 do {
                     system("cls");
-                    printf("\n----------------------------------------------------\n");
-                    gotoxy(3, 6);
-                    printf("您想要修改的条目如下");
-                    gotoxy(3, 7);
+                    gotoxy(0, 6);
+                    printf("您想要修改的内容如下");
+                    gotoxy(0, 7);
                     printf("订单号");
-                    gotoxy(10, 7);
+                    gotoxy(7, 7);
                     printf("身份证号");
-                    gotoxy(32, 7);
+                    gotoxy(29, 7);
                     printf("车牌号");
-                    gotoxy(45, 7);
+                    gotoxy(42, 7);
                     printf("费用");
-                    gotoxy(3, 9);
+                    gotoxy(0, 9);
                     printf("%d", car[i].theOrderNumber);
-                    gotoxy(10, 9);
+                    gotoxy(7, 9);
                     printf("%s", car[i].IdNumber);
-                    gotoxy(32, 9);
+                    gotoxy(29, 9);
                     printf("%s", car[i].PlateNumber);
-                    gotoxy(45, 9);
+                    gotoxy(42, 9);
                     printf("%f", car[i].Cost);
-                    printf("\n\n\t ———信息修改———\n\n");
+                    printf("\n\n\n\n");
                     printf("请选择需要修改的项目\n");
                     printf("\t[1]身份证号\n");
                     printf("\t[2]车牌号\n");
@@ -451,18 +441,18 @@ void ReviseInformation() {
                         scanf("%lf", &car[i].Cost);
                         break;
                     }
-                    printf("修改完成，输入1继续修改，输入其他键结束对此条目的修改");
+                    printf("修改完成，输入1继续修改，输入其他键结束修改");
                     scanf("%d", &c);
                 } while (c == 1);
                 break;
             }
             if (j == 0) {
                 gotoxy(3, 7);
-                printf("对不起，未查询到您输入的身份证号，请核实后重新输入");
+                printf("未查询到您输入的身份证号，请核实后重新输入");
                 break;
             }
         }
-        gotoxy(3, 15);
+        gotoxy(0, 20);
         printf("输入1继续修改其他条目，输入2返回主菜单，按其他键退出程序!");
         scanf("%d", &a);
     } while (a == 1);
@@ -474,12 +464,11 @@ void ReviseInformation() {
         ExitSystem();
     }
 }
-void DeleteInformation() {
+void Delete() {
     int j, x, k;
     char idnumber[20];
     system("cls");
-    printf("\n----------------------------------------------------\n");
-    printf("\t ———信息删除———\n\n");
+    printf("——————信息删除——————\n\n");
     printf("\t 请输入需要删除的条目的身份证号:");
     scanf("%s", idnumber);
     k = 0;
@@ -506,13 +495,12 @@ void DeleteInformation() {
     system("cls");
     main();
 }
-void AddInformation() {
+void Add() {
     int i, x, j, one, row;
     double cost;
     loop++;
     system("cls");
-    printf("\n----------------------------------------------------\n");
-    printf("\t ———信息追加———\n\n");
+    printf("——————信息追加——————\n\n");
     gotoxy(1, 5);
     if (loop == 1) {
         printf("请在录入信息后选择此功能，按任意键退出！");
@@ -563,12 +551,11 @@ void AddInformation() {
     system("cls");
     main();
 }
-void MoneySum() {
+void Money() {
     int i;
     double sum = 0;
     system("cls");
-    printf("\n----------------------------------------------------\n");
-    printf("\t ———信息统计(当月订单总金额)———\n\n");
+    printf("——————信息统计(当月订单总金额)——————\n\n");
     for (i = 0; i <= loop; i++) {
         sum = sum + car[i].Cost;
     }
@@ -580,12 +567,11 @@ void MoneySum() {
     system("cls");
     main();
 }
-void ChampionCar() {
+void MaxCar() {
     int i, j;
     double high = 0;
     system("cls");
-    printf("\n----------------------------------------------------\n");
-    printf("\t ———信息统计(订单金额最高的车牌号)———\n\n");
+    printf("——————信息统计(订单金额最高的车牌号)——————\n\n");
     for (i = 0; i < loop; i++) {
         if (car[i].Cost >= high) {
             high = car[i].Cost;
@@ -603,6 +589,5 @@ void ChampionCar() {
 void ExitSystem() {
     system("cls");
     printf("\n退出系统中...");
-    Sleep(1000);
     exit(0);
 }
